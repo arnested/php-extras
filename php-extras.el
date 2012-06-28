@@ -33,7 +33,10 @@
 
 ;;; Code:
 
-(defvar php-extras-php-variable-regexp "\\(\\$[a-zA-Z_][a-zA-Z0-9_]*\\(\\[.*\\]\\)*\\)"
+(defvar php-extras-php-variable-regexp
+  (format "\\(\\$[a-zA-Z_%s-%s][a-zA-Z0-9_%s-%s]*\\(\\[.*\\]\\)*\\)"
+          (char-to-string 127) (char-to-string 255)
+          (char-to-string 127) (char-to-string 255))
   "Regexp for a PHP variable.")
 
 
