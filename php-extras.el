@@ -33,13 +33,12 @@
 
 ;;; Code:
 
-(require 'php-mode)
-
 (defvar php-extras-php-variable-regexp "\\(\\$[a-zA-Z_][a-zA-Z0-9_]*\\(\\[[.*]*\\]\\)*\\)"
   "Regexp for a PHP variable.")
 
 
 
+;;;###autoload
 (defun php-extras-insert-previous-variable (arg)
   "Insert previously used variable from buffer.
 With prefix argument search that number of times backwards for
@@ -54,13 +53,12 @@ variable. If prefix argument is negative search forward."
         (re-search-forward php-extras-php-variable-regexp nil t))))
   (insert (match-string-no-properties 1)))
 
-(define-key php-mode-map [?\C-c ?\C-$] #'php-extras-insert-previous-variable)
-
 
 
 ;;;###autoload
 (eval-after-load 'php-mode
-  (require 'php-extras))
+  `(let ((map php-mode-map))
+     (define-key map [?\C-c ?\C-$] 'php-extras-insert-previous-variable)))
 
 
 
