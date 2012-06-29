@@ -54,7 +54,9 @@ variable. If prefix argument is negative search forward."
       (if (> arg 0)
           (re-search-backward php-extras-php-variable-regexp nil t)
         (re-search-forward php-extras-php-variable-regexp nil t))))
-  (insert (match-string-no-properties 1)))
+  (if (match-string-no-properties 1)
+      (insert (match-string-no-properties 1))
+    (message "No variable to insert.")))
 
 
 
