@@ -15,6 +15,9 @@ $(ARCHIVE_NAME).info: README.md
 README: README.md
 	pandoc --atx-headers -t plain -o $@ $^
 
+php-extras-eldoc-functions.el: php-extras-gen-eldoc.el
+	emacs --batch -l php-extras.el -l php-extras-gen-eldoc.el -f php-extras-generate-eldoc-1
+
 # requires package-build.el from https://github.com/milkypostman/melpa
 # to be available in your emacs load-path
 $(ARCHIVE_NAME)-pkg.el: $(ARCHIVE_NAME).el
@@ -27,7 +30,7 @@ $(ARCHIVE_NAME)-pkg.el: $(ARCHIVE_NAME).el
 				(package-buffer-info))))"
 
 # create a tar ball in package.el format for uploading to http://marmalade-repo.org
-$(PACKAGE_NAME).tar: README $(ARCHIVE_NAME).el $(ARCHIVE_NAME)-pkg.el $(ARCHIVE_NAME).info dir
+$(PACKAGE_NAME).tar: README $(ARCHIVE_NAME).el $(ARCHIVE_NAME)-pkg.el $(ARCHIVE_NAME).info dir php-extras-eldoc-functions.el php-extras-gen-eldoc.el
 	tar -c -s "@^@$(PACKAGE_NAME)/@" -f $(PACKAGE_NAME).tar $^
 
 install: $(PACKAGE_NAME).tar
@@ -36,4 +39,4 @@ install: $(PACKAGE_NAME).tar
 		(package-install-file \"`pwd`/$(PACKAGE_NAME).tar\"))"
 
 clean:
-	$(RM) $(ARCHIVE_NAME)-*.tar $(ARCHIVE_NAME)-pkg.el README $(ARCHIVE_NAME).info
+	$(RM) $(ARCHIVE_NAME)-*.tar $(ARCHIVE_NAME)-pkg.el README $(ARCHIVE_NAME).info php-extras-eldoc-functions.el
