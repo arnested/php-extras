@@ -1,4 +1,5 @@
 php-extras.info
 php-extras-pkg.el
 php-extras-*.tar
+php-extras-eldoc-functions.el*
 README
