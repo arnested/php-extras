@@ -39,6 +39,22 @@
           (char-to-string 127) (char-to-string 255))
   "Regexp for a PHP variable.")
 
+;;;###autoload
+(defcustom php-extras-insert-previous-variable-key [3 67108900]
+  "Key sequence for `php-extras-insert-previous-variable'."
+  :group 'php
+  :set #'(lambda (symbol value)
+           ;; When `php-mode-map' is already loaded define it in the map.
+           (when (boundp 'php-mode-map)
+             ;; First undefine the old key sequence if defined.
+             (when (eq (lookup-key php-mode-map php-extras-insert-previous-variable-key) 'php-extras-insert-previous-variable)
+               (define-key php-mode-map php-extras-insert-previous-variable-key 'undefined))
+             ;; Then define the new key sequence.
+             (define-key php-mode-map value 'php-extras-insert-previous-variable))
+           ;; Finally and always set the variable `php-extras-insert-previous-variable-key'.
+           (set-default symbol value))
+  :type 'key-sequence)
+
 
 
 ;;;###autoload
@@ -62,8 +78,9 @@ variable. If prefix argument is negative search forward."
 
 ;;;###autoload
 (eval-after-load 'php-mode
-  `(let ((map php-mode-map))
-     (define-key map [?\C-c ?\C-$] 'php-extras-insert-previous-variable)))
+  `(let ((map php-mode-map)
+	 (key php-extras-insert-previous-variable-key))
+     (define-key map key 'php-extras-insert-previous-variable)))
 
 
 
