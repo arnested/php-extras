@@ -53,14 +53,14 @@
              (= (safe-length elem) 3))
         (progn
           (ignore-errors
-            (when (string= (cdr (car (cadr elem))) "methodname")
+            (when (string= (cdr (car (car (cdr elem)))) "methodname")
               (setq php-extras-gen-eldoc-temp-methodname (nth 2 (nth 2 elem)))))
           (php-extras-gen-eldoc-elem-string (nth 2 elem)))
       ;; If the element is a list with anything but 3 elements iterate
       ;; over them.
       (if (listp elem)
           (let ((result ""))
-            (dolist (elem2 (cddr elem) result)
+            (dolist (elem2 (cdr (cdr elem)) result)
               (setq result (concat result (php-extras-gen-eldoc-elem-string elem2)))))))))
 
 ;;;###autoload
@@ -97,7 +97,7 @@
                                   (setq min (point))
                                   (search-forward "</div>" nil t)
                                   (setq max (point))
-                                  (dolist (elem (cddr (nth 2 (libxml-parse-html-region min max))))
+                                  (dolist (elem (cdr (cdr (nth 2 (libxml-parse-html-region min max)))))
                                     (setq help-string (concat help-string (php-extras-gen-eldoc-elem-string elem))))
                                   (setq help-string (replace-regexp-in-string "[ \n]+" " " help-string))
                                   (when (and php-extras-gen-eldoc-temp-methodname help-string)
