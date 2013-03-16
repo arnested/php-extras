@@ -6,6 +6,8 @@ Currently includes:
 
   * `php-extras-insert-previous-variable`
   * `php-extras-eldoc-documentation-function`
+  * Auto complete source for PHP functions based on
+    `php-extras-eldoc-documentation-function`
 
 
 ## `php-extras-insert-previous-variable`
@@ -44,6 +46,20 @@ from [php.net](http://php.net) and extract the function definitions
 (slow) and store them in a hash table on disk for you. If you
 install `php-extras` as an ELPA package the hash table is already
 generated for you.
+
+
+## Auto complete source for PHP functions based
+
+The PHP functions extracted for
+`php-extras-eldoc-documentation-function` is also setup as a source for
+[auto-complete](http://cx4a.org/software/auto-complete).
+
+[auto-complete](http://cx4a.org/software/auto-complete) already comes
+with a dictionary of PHP functions and will auto complete on them
+using the `ac-source-dictionary`.
+
+The source we provide with `php-extras` will hopefully be more up to
+date.
 
 
 ## Installation

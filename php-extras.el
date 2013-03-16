@@ -1,6 +1,6 @@
 ;;; php-extras.el --- Extra features for `php-mode'
 
-;; Copyright (C) 2012 Arne Jørgensen
+;; Copyright (C) 2012, 2013 Arne Jørgensen
 
 ;; Author: Arne Jørgensen <arne@arnested.dk>
 ;; URL: https://github.com/arnested/php-extras
@@ -29,6 +29,8 @@
 
 ;;   * `php-extras-insert-previous-variable'
 ;;   * `php-extras-eldoc-documentation-function'
+;;   * Auto complete source for PHP functions based on
+;;     `php-extras-eldoc-documentation-function'
 
 ;; Whoop whoop!
 
@@ -93,6 +95,40 @@ variable. If prefix argument is negative search forward."
                              (unless eldoc-documentation-function
                                (set (make-local-variable 'eldoc-documentation-function)
                                     #'php-extras-eldoc-documentation-function))))
+
+
+
+(defvar ac-source-php-extras
+  '((candidates . php-extras-autocomplete-candidates)
+    (candidate-face . php-extras-autocomplete-candidate-face)
+    (selection-face . php-extras-autocomplete-selection-face)
+    (cache))
+  "Auto complete source for PHP functions.")
+
+(defface php-extras-autocomplete-candidate-face
+  '((t (:inherit ac-candidate-face)))
+  "Face for PHP auto complete candidate."
+  :group 'php)
+
+(defface php-extras-autocomplete-selection-face
+  '((t (:inherit ac-selection-face)))
+  "Face for PHP auto complete selection."
+  :group 'php)
+
+(defun php-extras-autocomplete-candidates ()
+  "Generate PHP auto complete candidates.
+The candidates are generated from the
+`php-extras-function-arguments' hash table."
+  (let (candidates)
+    (maphash (lambda (key value) (setq candidates (cons key candidates))) php-extras-function-arguments)
+    candidates))
+
+(defun php-extras-autocomplete-setup ()
+  (eval-after-load 'auto-complete
+    '(add-to-list 'ac-sources 'ac-source-php-extras)))
+
+;;;###autoload
+(add-hook 'php-mode-hook #'php-extras-autocomplete-setup)
 
 
 
