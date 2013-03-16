@@ -71,6 +71,9 @@ the ELPA archive at
 ELPA (package.el) is part of Emacs 24. For Emacs 23 see
 [Marmalade](http://marmalade-repo.org) for installation instructions.
 
+The version number of the ELPA package will have the date appended
+when the package was build and hence the date the documentation got
+extracted from [php.net](http://php.net).
 
 ## Development of PHP Extras
 
