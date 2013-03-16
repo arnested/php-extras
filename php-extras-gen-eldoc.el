@@ -1,6 +1,6 @@
 ;;; php-extras-gen-eldoc.el --- Extra features for `php-mode'
 
-;; Copyright (C) 2012 Arne Jørgensen
+;; Copyright (C) 2012, 2013 Arne Jørgensen
 
 ;; Author: Arne Jørgensen <arne@arnested.dk>
 
@@ -37,7 +37,7 @@
 
 (defvar php-extras-gen-eldoc-temp-methodname nil)
 
-(defvar php-extras-php-manual-url "http://dk.php.net/distributions/manual/php_manual_en.tar.gz"
+(defvar php-extras-php-manual-url "http://dk1.php.net/distributions/manual/php_manual_en.tar.gz"
   "URL of the downloadable .tar.gz version of the PHP manual.")
 
 

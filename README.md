@@ -6,6 +6,8 @@ Currently includes:
 
   * `php-extras-insert-previous-variable`
   * `php-extras-eldoc-documentation-function`
+  * Auto complete source for PHP functions based on
+    `php-extras-eldoc-documentation-function`
 
 
 ## `php-extras-insert-previous-variable`
@@ -46,6 +48,20 @@ install `php-extras` as an ELPA package the hash table is already
 generated for you.
 
 
+## Auto complete source for PHP functions based
+
+The PHP functions extracted for
+`php-extras-eldoc-documentation-function` is also setup as a source for
+[auto-complete](http://cx4a.org/software/auto-complete).
+
+[auto-complete](http://cx4a.org/software/auto-complete) already comes
+with a dictionary of PHP functions and will auto complete on them
+using the `ac-source-dictionary`.
+
+The source we provide with `php-extras` will hopefully be more up to
+date.
+
+
 ## Installation
 
 The easiest way to install `php-extras` is probably to install it via
@@ -55,6 +71,9 @@ the ELPA archive at
 ELPA (package.el) is part of Emacs 24. For Emacs 23 see
 [Marmalade](http://marmalade-repo.org) for installation instructions.
 
+The version number of the ELPA package will have the date appended
+when the package was build and hence the date the documentation got
+extracted from [php.net](http://php.net).
 
 ## Development of PHP Extras
 
