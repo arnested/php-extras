@@ -1,10 +1,7 @@
 .PHONY: all clean install
 
 ARCHIVE_NAME:=php-extras
-VERSION:=$(shell emacs --batch --eval "(with-temp-buffer \
-		(require 'package)\
-		(insert-file \"$(ARCHIVE_NAME).el\")\
-		(princ (aref (package-buffer-info) 3)))")
+VERSION:=$(shell carton version)
 PACKAGE_NAME:=$(ARCHIVE_NAME)-$(VERSION)
 
 all: $(PACKAGE_NAME).tar
@@ -13,25 +10,19 @@ $(ARCHIVE_NAME).info: README.md
 	pandoc -t texinfo $^ | makeinfo -o $@
 
 README: README.md
-	pandoc -t plain -o $@ $^
+	pandoc --atx-headers -t plain -o $@ $^
 
 php-extras-eldoc-functions.el: php-extras-gen-eldoc.el
 	emacs --batch -l php-extras.el -l php-extras-gen-eldoc.el -f php-extras-generate-eldoc-1
 
-# requires package-build.el from https://github.com/milkypostman/melpa
-# to be available in your emacs load-path
+# requires carton from https://github.com/rejeep/carton to be
+# available in your $PATH
 $(ARCHIVE_NAME)-pkg.el: $(ARCHIVE_NAME).el
-	emacs --batch --user `whoami` --eval "(progn \
-		(require 'package-build) \
-		(pb/write-pkg-file \
-			\"$(ARCHIVE_NAME)-pkg.el\" \
-			(with-temp-buffer \
-				(insert-file \"$(ARCHIVE_NAME).el\") \
-				(package-buffer-info))))"
+	carton package
 
 # create a tar ball in package.el format for uploading to http://marmalade-repo.org
 $(PACKAGE_NAME).tar: README $(ARCHIVE_NAME).el $(ARCHIVE_NAME)-pkg.el $(ARCHIVE_NAME).info dir php-extras-eldoc-functions.el php-extras-gen-eldoc.el
-	tar -c --transform "s@^@$(PACKAGE_NAME)/@" -f $(PACKAGE_NAME).tar $^
+	bsdtar -c -s "@^@$(PACKAGE_NAME)/@" -f $(PACKAGE_NAME).tar $^
 
 install: $(PACKAGE_NAME).tar
 	emacs --batch --user `whoami` --eval "(progn \
