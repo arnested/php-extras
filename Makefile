@@ -10,7 +10,7 @@ $(ARCHIVE_NAME).info: README.md
 	pandoc -t texinfo $^ | makeinfo -o $@
 
 README: README.md
-	pandoc -t plain -o $@ $^
+	pandoc --atx-headers -t plain -o $@ $^
 
 php-extras-eldoc-functions.el: php-extras-gen-eldoc.el
 	emacs --batch -l php-extras.el -l php-extras-gen-eldoc.el -f php-extras-generate-eldoc-1
