@@ -1,0 +1,5 @@
+(package "php-extras" "0.3.0" "Extra features for `php-mode'")
+
+(source "marmalade" "http://marmalade-repo.org/packages/")
+
+(depends-on "php-mode" "1.5.0")
