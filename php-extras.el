@@ -5,7 +5,7 @@
 ;; Author: Arne Jørgensen <arne@arnested.dk>
 ;; URL: https://github.com/arnested/php-extras
 ;; Created: June 28, 2012
-;; Version: 0.3.0
+;; Version: 0.4.0
 ;; Package-Requires: ((php-mode "1.5.0"))
 ;; Keywords: programming, php
 
