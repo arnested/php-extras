@@ -5,7 +5,7 @@
 ;; Author: Arne Jørgensen <arne@arnested.dk>
 ;; URL: https://github.com/arnested/php-extras
 ;; Created: June 28, 2012
-;; Version: 0.4.0
+;; Version: 0.4.1
 ;; Package-Requires: ((php-mode "1.5.0"))
 ;; Keywords: programming, php
 
@@ -143,6 +143,7 @@ The candidates are generated from the
     (maphash (lambda (key value) (setq candidates (cons key candidates))) php-extras-function-arguments)
     candidates))
 
+;;;###autoload
 (defun php-extras-autocomplete-setup ()
   (eval-after-load 'auto-complete
     '(add-to-list 'ac-sources 'ac-source-php-extras)))
