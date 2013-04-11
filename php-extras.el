@@ -5,7 +5,7 @@
 ;; Author: Arne Jørgensen <arne@arnested.dk>
 ;; URL: https://github.com/arnested/php-extras
 ;; Created: June 28, 2012
-;; Version: 0.4.1
+;; Version: 0.4.2
 ;; Package-Requires: ((php-mode "1.5.0"))
 ;; Keywords: programming, php
 
@@ -140,7 +140,8 @@ documentation for the inserted selection."
 The candidates are generated from the
 `php-extras-function-arguments' hash table."
   (let (candidates)
-    (maphash (lambda (key value) (setq candidates (cons key candidates))) php-extras-function-arguments)
+    (when (hash-table-p php-extras-function-arguments)
+      (maphash (lambda (key value) (setq candidates (cons key candidates))) php-extras-function-arguments))
     candidates))
 
 ;;;###autoload
