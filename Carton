@@ -1,4 +1,4 @@
-(package "php-extras" "0.4.1" "Extra features for `php-mode'")
+(package "php-extras" "0.4.2" "Extra features for `php-mode'")
 
 (source "marmalade" "http://marmalade-repo.org/packages/")
 
