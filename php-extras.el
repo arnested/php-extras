@@ -140,7 +140,8 @@ documentation for the inserted selection."
 The candidates are generated from the
 `php-extras-function-arguments' hash table."
   (let (candidates)
-    (maphash (lambda (key value) (setq candidates (cons key candidates))) php-extras-function-arguments)
+    (when (hash-table-p php-extras-function-arguments)
+      (maphash (lambda (key value) (setq candidates (cons key candidates))) php-extras-function-arguments))
     candidates))
 
 ;;;###autoload
