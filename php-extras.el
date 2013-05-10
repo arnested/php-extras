@@ -32,8 +32,6 @@
 ;;   * Auto complete source for PHP functions based on
 ;;     `php-extras-eldoc-documentation-function'
 
-;; Whoop whoop!
-
 ;;; Code:
 
 (defvar php-extras-php-variable-regexp
