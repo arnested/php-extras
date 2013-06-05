@@ -94,7 +94,12 @@ variable. If prefix argument is negative search forward."
   (when (eq php-extras-function-arguments 'not-loaded)
     (require 'php-extras-eldoc-functions php-extras-eldoc-functions-file t))
   (when (hash-table-p php-extras-function-arguments)
-    (gethash (php-get-pattern) php-extras-function-arguments)))
+    (or                                 
+     (gethash (php-get-pattern) php-extras-function-arguments)
+     (save-excursion
+       (ignore-errors
+         (backward-up-list)
+         (gethash (php-get-pattern) php-extras-function-arguments))))))
 
 ;;;###autoload
 (add-hook 'php-mode-hook #'(lambda ()
