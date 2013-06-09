@@ -105,7 +105,10 @@ variable. If prefix argument is negative search forward."
 (add-hook 'php-mode-hook #'(lambda ()
                              (unless eldoc-documentation-function
                                (set (make-local-variable 'eldoc-documentation-function)
-                                    #'php-extras-eldoc-documentation-function))))
+                                    #'php-extras-eldoc-documentation-function))
+                             (add-hook 'completion-at-point-functions
+                                       #'php-extras-completion-at-point
+                                       nil t)))
 
 
 
@@ -158,6 +161,21 @@ The candidates are generated from the
 
 ;;;###autoload
 (add-hook 'php-mode-hook #'php-extras-autocomplete-setup)
+
+
+;;; Setup basic Emacs completion-at-point to complete on function names
+
+;;;###autoload
+(defun php-extras-completion-at-point ()
+  (when (eq php-extras-function-arguments 'not-loaded)
+    (require 'php-extras-eldoc-functions php-extras-eldoc-functions-file t))
+  (when (hash-table-p php-extras-function-arguments)
+    (let ((bounds (bounds-of-thing-at-point 'symbol))
+          (symbol (symbol-name (symbol-at-point))))
+      (if (try-completion symbol php-extras-function-arguments)
+          (list (car bounds) (cdr bounds) php-extras-function-arguments)
+        nil))))
+
 
 
 
