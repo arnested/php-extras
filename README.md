@@ -20,8 +20,10 @@ In example you have the code below and want to debug what value you
 actually parsed to `some_function()`. You have point at `^` and now
 all you have to write is repeat the variable...
 
-    some_function($my_array['some_level'][0]['another_level'][7]);
-    print_r(^);
+```php
+some_function($my_array['some_level'][0]['another_level'][7]);
+print_r(^);
+```
 
 Enter `php-extras` and you just hit <kbd>C-c C-$</kbd> and it will
 insert the previous variable (including array indexes).
@@ -43,9 +45,12 @@ functions.
 
 The function `php-extras-generate-eldoc` will download the PHP manual
 from [php.net](http://php.net) and extract the function definitions
-(slow) and store them in a hash table on disk for you. If you
-install `php-extras` as an ELPA package the hash table is already
-generated for you.
+(slow) and store them in a hash table on disk for you. Your Emacs must
+be build with libxml2 and Emacs should be able to find the `gzip`
+executable somewhere along its `exec-path`.
+
+If you install `php-extras` as an ELPA package the hash table is
+already generated for you.
 
 
 ## Auto complete source for PHP functions based
@@ -74,6 +79,37 @@ ELPA (package.el) is part of Emacs 24. For Emacs 23 see
 The version number of the ELPA package will have the date appended
 when the package was build and hence the date the documentation got
 extracted from [php.net](http://php.net).
+
+
+### Manual installation
+
+I really recommend that you install this package via ELPA as
+described above.
+
+If you insist on installing it manually try to follow this recipe:
+
+* Place the folder with the files somewhere on your disk.
+
+* Add this to your `.emacs` / `.emacs.d/init.el`:
+
+```lisp
+(add-to-list 'load-path "/somewhere/on/your/disk/php-xtras")
+(eval-after-load 'php-mode
+  (require 'php-extras))
+```
+
+* Either restart your Emacs or at evaluate the `add-to-list`
+  expression.
+
+* Generate the hash table containing the PHP functions:
+
+   <kbd>M-x load-library RET php-extras-gen-eldoc RET</kbd>
+
+   <kbd>M-x php-extras-generate-eldoc RET</kbd>
+
+   _Notice:_ Your Emacs must be build with libxml2 and Emacs should be
+   able to find the `gzip` executable somewhere along its `exec-path`.
+
 
 ## Development of PHP Extras
 

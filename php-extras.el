@@ -5,7 +5,7 @@
 ;; Author: Arne Jørgensen <arne@arnested.dk>
 ;; URL: https://github.com/arnested/php-extras
 ;; Created: June 28, 2012
-;; Version: 0.4.3
+;; Version: 0.4.4
 ;; Package-Requires: ((php-mode "1.5.0"))
 ;; Keywords: programming, php
 
@@ -94,13 +94,21 @@ variable. If prefix argument is negative search forward."
   (when (eq php-extras-function-arguments 'not-loaded)
     (require 'php-extras-eldoc-functions php-extras-eldoc-functions-file t))
   (when (hash-table-p php-extras-function-arguments)
-    (gethash (php-get-pattern) php-extras-function-arguments)))
+    (or
+     (gethash (php-get-pattern) php-extras-function-arguments)
+     (save-excursion
+       (ignore-errors
+         (backward-up-list)
+         (gethash (php-get-pattern) php-extras-function-arguments))))))
 
 ;;;###autoload
 (add-hook 'php-mode-hook #'(lambda ()
                              (unless eldoc-documentation-function
                                (set (make-local-variable 'eldoc-documentation-function)
-                                    #'php-extras-eldoc-documentation-function))))
+                                    #'php-extras-eldoc-documentation-function))
+                             (add-hook 'completion-at-point-functions
+                                       #'php-extras-completion-at-point
+                                       nil t)))
 
 
 
@@ -153,6 +161,21 @@ The candidates are generated from the
 
 ;;;###autoload
 (add-hook 'php-mode-hook #'php-extras-autocomplete-setup)
+
+
+;;; Setup basic Emacs completion-at-point to complete on function names
+
+;;;###autoload
+(defun php-extras-completion-at-point ()
+  (when (eq php-extras-function-arguments 'not-loaded)
+    (require 'php-extras-eldoc-functions php-extras-eldoc-functions-file t))
+  (when (hash-table-p php-extras-function-arguments)
+    (let ((bounds (bounds-of-thing-at-point 'symbol))
+          (symbol (symbol-name (symbol-at-point))))
+      (if (try-completion symbol php-extras-function-arguments)
+          (list (car bounds) (cdr bounds) php-extras-function-arguments)
+        nil))))
+
 
 
 
