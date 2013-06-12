@@ -97,7 +97,7 @@ If you insist on installing it manually try to follow this recipe:
 (eval-after-load 'php-mode
   (require 'php-extras))
 ```
-        
+
 * Either restart your Emacs or at evaluate the `add-to-list`
   expression.
 
