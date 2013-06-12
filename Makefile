@@ -19,10 +19,8 @@ README: README.md
 	$(PANDOC) -t plain -o $@ $^
 
 php-extras-eldoc-functions.el: php-extras-gen-eldoc.el
-	$(EMACS) --batch -l php-extras.el -l php-extras-gen-eldoc.el -f php-extras-generate-eldoc-1
+	$(CARTON) exec $(EMACS) --batch -l php-extras.el -l php-extras-gen-eldoc.el -f php-extras-generate-eldoc-1
 
-# requires carton from https://github.com/rejeep/carton to be
-# available in your $PATH
 $(ARCHIVE_NAME)-pkg.el: $(ARCHIVE_NAME).el
 	$(CARTON) package
 
@@ -31,8 +29,7 @@ $(PACKAGE_NAME).tar: README $(ARCHIVE_NAME).el $(ARCHIVE_NAME)-pkg.el $(ARCHIVE_
 	$(TAR) -c -s "@^@$(PACKAGE_NAME)/@" -f $(PACKAGE_NAME).tar $^
 
 install: $(PACKAGE_NAME).tar
-	$(EMACS) --batch -l package -f package-initialize --eval "(let ((package-user-dir (car package-directory-list)))\
-		(package-install-file \"$(PWD)/$(PACKAGE_NAME).tar\"))"
+	$(EMACS) --batch -l package -f package-initialize --eval "(package-install-file \"$(PWD)/$(PACKAGE_NAME).tar\")"
 
 clean:
 	$(RM) $(ARCHIVE_NAME)-*.tar $(ARCHIVE_NAME)-pkg.el README $(ARCHIVE_NAME).info php-extras-eldoc-functions.el
