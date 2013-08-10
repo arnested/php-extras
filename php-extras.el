@@ -170,10 +170,10 @@ The candidates are generated from the
   (when (eq php-extras-function-arguments 'not-loaded)
     (require 'php-extras-eldoc-functions php-extras-eldoc-functions-file t))
   (when (hash-table-p php-extras-function-arguments)
-    (let ((bounds (bounds-of-thing-at-point 'symbol))
-          (symbol (symbol-name (symbol-at-point))))
-      (if (try-completion symbol php-extras-function-arguments)
-          (list (car bounds) (cdr bounds) php-extras-function-arguments)
+    (let ((bounds (bounds-of-thing-at-point 'symbol)))
+      (if bounds
+          (list (car bounds) (cdr bounds) php-extras-function-arguments
+                :exclusive 'no)
         nil))))
 
 
