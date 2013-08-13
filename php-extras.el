@@ -92,7 +92,7 @@ variable. If prefix argument is negative search forward."
 (defun php-extras-eldoc-documentation-function ()
   "Get function arguments for core PHP function at point."
   (when (eq php-extras-function-arguments 'not-loaded)
-    (require 'php-extras-eldoc-functions php-extras-eldoc-functions-file t))
+    (php-extras-load-eldoc))
   (when (hash-table-p php-extras-function-arguments)
     (or
      (gethash (php-get-pattern) php-extras-function-arguments)
@@ -102,13 +102,18 @@ variable. If prefix argument is negative search forward."
          (gethash (php-get-pattern) php-extras-function-arguments))))))
 
 ;;;###autoload
-(add-hook 'php-mode-hook #'(lambda ()
-                             (unless eldoc-documentation-function
-                               (set (make-local-variable 'eldoc-documentation-function)
-                                    #'php-extras-eldoc-documentation-function))
-                             (add-hook 'completion-at-point-functions
-                                       #'php-extras-completion-at-point
-                                       nil t)))
+(add-hook 'php-mode-hook 'php-extras-eldoc-setup)
+
+(defun php-extras-eldoc-setup ()
+  (unless eldoc-documentation-function
+      (set (make-local-variable 'eldoc-documentation-function)
+           #'php-extras-eldoc-documentation-function))
+  (eldoc-add-command 'completion-at-point))
+
+(defun php-extras-load-eldoc ()
+  (unless
+      (require 'php-extras-eldoc-functions php-extras-eldoc-functions-file t)
+    (warn "PHP function descriptions not loaded. Try M-x php-extras-generate-eldoc")))
 
 
 
@@ -149,7 +154,7 @@ The candidates are generated from the
 `php-extras-function-arguments' hash table."
   (let (candidates)
     (when (eq php-extras-function-arguments 'not-loaded)
-      (require 'php-extras-eldoc-functions php-extras-eldoc-functions-file t))
+      (php-extras-load-eldoc))
     (when (hash-table-p php-extras-function-arguments)
       (maphash (lambda (key value) (setq candidates (cons key candidates))) php-extras-function-arguments))
     candidates))
@@ -168,7 +173,7 @@ The candidates are generated from the
 ;;;###autoload
 (defun php-extras-completion-at-point ()
   (when (eq php-extras-function-arguments 'not-loaded)
-    (require 'php-extras-eldoc-functions php-extras-eldoc-functions-file t))
+    (php-extras-load-eldoc))
   (when (hash-table-p php-extras-function-arguments)
     (let ((bounds (bounds-of-thing-at-point 'symbol))
           (symbol (symbol-name (symbol-at-point))))
