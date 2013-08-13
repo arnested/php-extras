@@ -33,6 +33,7 @@
 ;;     `php-extras-eldoc-documentation-function'
 
 ;;; Code:
+(require 'thingatpt)
 
 (defvar php-extras-php-variable-regexp
   (format "\\(\\$[a-zA-Z_%s-%s][a-zA-Z0-9_%s-%s]*\\(\\[.*\\]\\)*\\)"
