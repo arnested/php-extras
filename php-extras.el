@@ -177,6 +177,14 @@ The candidates are generated from the
                 :exclusive 'no)
         nil))))
 
+;;;###autoload
+(defun php-extras-completion-setup ()
+  (add-hook 'completion-at-point-functions
+            #'php-extras-completion-at-point
+            nil t))
+
+;;;###autoload
+(add-hook 'php-mode-hook #'php-extras-completion-setup)
 
 
 
