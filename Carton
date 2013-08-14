@@ -1,3 +1,5 @@
 (package-file "php-extras.el")
 
 (source "marmalade" "http://marmalade-repo.org/packages/")
+
+(development (depends-on "php-mode" "1.11"))
