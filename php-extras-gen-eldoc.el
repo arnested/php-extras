@@ -31,6 +31,7 @@
 
 ;;; Code:
 
+(require 'php-mode)
 (require 'php-extras)
 
 
