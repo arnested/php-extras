@@ -1,3 +1,0 @@
-(package-file "php-extras.el")
-
-(source "marmalade" "http://marmalade-repo.org/packages/")
