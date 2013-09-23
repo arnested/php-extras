@@ -33,6 +33,8 @@
 ;;     `php-extras-eldoc-documentation-function'
 
 ;;; Code:
+
+(require 'eldoc)
 (require 'thingatpt)
 
 (defvar php-extras-php-variable-regexp
