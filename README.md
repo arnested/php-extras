@@ -43,11 +43,11 @@ to look up the function definition.
 `php-extras` provides such a function for looking up all the core PHP
 functions.
 
-The function `php-extras-generate-eldoc` will download the PHP manual
-from [php.net](http://php.net) and extract the function definitions
-(slow) and store them in a hash table on disk for you. Your Emacs must
-be build with libxml2 and Emacs should be able to find the `gzip`
-executable somewhere along its `exec-path`.
+The function `php-extras-generate-eldoc` will download the PHP
+function summary
+[PHP Subversion repository](http://svn.php.net/repository/phpdoc/doc-base/trunk/funcsummary.txt)
+and extract the function definitions (slow) and store them in a hash
+table on disk for you.
 
 If you install `php-extras` as an ELPA package the hash table is
 already generated for you.
@@ -98,17 +98,13 @@ If you insist on installing it manually try to follow this recipe:
   (require 'php-extras))
 ```
 
-* Either restart your Emacs or at evaluate the `add-to-list`
-  expression.
+* Either restart your Emacs or evaluate the `add-to-list` expression.
 
 * Generate the hash table containing the PHP functions:
 
    <kbd>M-x load-library RET php-extras-gen-eldoc RET</kbd>
 
    <kbd>M-x php-extras-generate-eldoc RET</kbd>
-
-   _Notice:_ Your Emacs must be build with libxml2 and Emacs should be
-   able to find the `gzip` executable somewhere along its `exec-path`.
 
 
 ## Development of PHP Extras

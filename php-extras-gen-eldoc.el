@@ -27,8 +27,6 @@
 ;; Please note that build a new `php-extras-function-arguments' is a
 ;; slow process and might be error prone.
 
-;; The code in this file can must likely be heavily improved.
-
 ;;; Code:
 
 (require 'php-extras)
