@@ -51,7 +51,7 @@
 
 (defun php-extras-generate-eldoc-1 (&optional byte-compile)
   (let ((function-arguments-temp (make-hash-table
-                                  :size 4400
+                                  :size 5000
                                   :rehash-threshold 1.0
                                   :rehash-size 100
                                   :test 'equal)))
