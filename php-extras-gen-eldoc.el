@@ -75,6 +75,12 @@
                   (puthash function-name help-string function-arguments-temp))))
             ;; Skip over function description
             (forward-line 2)))))
+    ;; PHP control structures are not present in funcsummary.txt. We
+    ;; add them here (hard coded - there are not so many of them).
+    (let ((php-control-structures '("if" "else" "elseif" "while" "do.while" "for" "foreach" "break" "continue" "switch" "declare" "return" "require" "include" "require_once" "include_once" "goto")))
+      (dolist (php-control-structure php-control-structures)
+        (message "Adding control structure: %s" php-control-structure)
+        (puthash php-control-structure "Control structure" function-arguments-temp)))
     (let* ((file (concat php-extras-eldoc-functions-file ".el"))
            (base-name (file-name-nondirectory php-extras-eldoc-functions-file)))
       (with-temp-file file
