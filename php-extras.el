@@ -1,11 +1,11 @@
 ;;; php-extras.el --- Extra features for `php-mode'
 
-;; Copyright (C) 2012, 2013 Arne Jørgensen
+;; Copyright (C) 2012, 2013, 2014 Arne Jørgensen
 
 ;; Author: Arne Jørgensen <arne@arnested.dk>
 ;; URL: https://github.com/arnested/php-extras
 ;; Created: June 28, 2012
-;; Version: 1.0.0
+;; Version: 2.0.0
 ;; Package-Requires: ((php-mode "1.5.0"))
 ;; Keywords: programming, php
 
@@ -91,6 +91,11 @@ variable. If prefix argument is negative search forward."
       (insert (match-string-no-properties 1))
     (message "No variable to insert.")))
 
+(defun php-extras-get-function-property (symbol property)
+  "Get property of symbol.
+Property can be: 'versions, 'return, 'prototype, 'purpose, or 'id."
+  (cdr (assoc property (gethash symbol php-extras-function-arguments))))
+
 ;;;###autoload
 (defun php-extras-eldoc-documentation-function ()
   "Get function arguments for core PHP function at point."
@@ -98,11 +103,11 @@ variable. If prefix argument is negative search forward."
     (php-extras-load-eldoc))
   (when (hash-table-p php-extras-function-arguments)
     (or
-     (gethash (php-get-pattern) php-extras-function-arguments)
+     (php-extras-get-function-property (php-get-pattern) 'prototype)
      (save-excursion
        (ignore-errors
          (backward-up-list)
-         (gethash (php-get-pattern) php-extras-function-arguments))))))
+         (php-extras-get-function-property (php-get-pattern) 'prototype))))))
 
 ;;;###autoload
 (add-hook 'php-mode-hook 'php-extras-eldoc-setup)

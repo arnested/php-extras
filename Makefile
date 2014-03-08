@@ -2,7 +2,7 @@
 
 CASK?=cask
 EMACS?=emacs
-TAR?=bsdtar
+TAR?=COPYFILE_DISABLE=1 bsdtar
 PANDOC?=pandoc --atx-headers
 
 VERSION?=$(shell $(CASK) version)
@@ -19,6 +19,7 @@ README: README.md
 	$(PANDOC) -t plain -o $@ $^
 
 php-extras-eldoc-functions.el: php-extras-gen-eldoc.el
+	$(CASK) install
 	$(CASK) exec $(EMACS) --batch -l php-extras.el -l php-extras-gen-eldoc.el -f php-extras-generate-eldoc-1
 
 $(ARCHIVE_NAME)-pkg.el: $(ARCHIVE_NAME).el

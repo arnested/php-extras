@@ -43,14 +43,14 @@ to look up the function definition.
 `php-extras` provides such a function for looking up all the core PHP
 functions.
 
-The function `php-extras-generate-eldoc` will download the PHP
-function summary
-[PHP Subversion repository](http://svn.php.net/repository/phpdoc/doc-base/trunk/funcsummary.txt)
+The function `php-extras-generate-eldoc` will download the
+[PHP function list](http://doc.php.net/downloads/json/php_manual_en.json)
 and extract the function definitions (slow) and store them in a hash
 table on disk for you.
 
-If you install `php-extras` as an ELPA package the hash table is
-already generated for you.
+If you install `php-extras` as an ELPA package from
+[Marmalade](http://marmalade-repo.org/packages/php-extras) the hash
+table is already generated for you.
 
 
 ## Auto complete source for PHP functions based
