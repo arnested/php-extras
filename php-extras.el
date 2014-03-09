@@ -138,10 +138,15 @@ documentation for the inserted selection."
                (fboundp 'eldoc-message))
       (eldoc-message (funcall eldoc-documentation-function)))))
 
+(defun php-extras-function-documentation (symbol)
+  "Documentation for PHP function."
+  (php-extras-get-function-property symbol 'documentation))
+
 (defvar ac-source-php-extras
   '((candidates . php-extras-autocomplete-candidates)
     (candidate-face . php-extras-autocomplete-candidate-face)
     (selection-face . php-extras-autocomplete-selection-face)
+    (document . php-extras-function-documentation)
     (action . php-extras-ac-insert-action)
     (cache))
   "Auto complete source for PHP functions.")

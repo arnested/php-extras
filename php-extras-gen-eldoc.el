@@ -32,6 +32,7 @@
 (require 'php-mode)
 (require 'php-extras)
 (require 'json)
+(require 'shr)
 
 
 
@@ -59,7 +60,8 @@
                                      :size length
                                      :rehash-threshold 1.0
                                      :rehash-size 100
-                                     :test 'equal)))
+                                     :test 'equal))
+           doc)
       (dolist (elem data)
         (setq count (+ count 1))
         ;; Skip methods for now: is there anything more intelligent we
@@ -67,7 +69,19 @@
         (unless (string-match-p "::" (symbol-name (car elem)))
           (setq progress (* 100 (/ (float count) length)))
           (message "[%2d%%] Adding function: %s..." progress (car elem))
-          (puthash (symbol-name (car elem)) (cdr elem) function-arguments-temp)))
+          (setq doc (concat
+                     (cdr (assoc 'purpose (cdr elem)))
+                     "\n\n"
+                     (cdr (assoc 'prototype (cdr elem)))
+                     "\n\n"
+                     ;; The return element is HTML - use `shr' to
+                     ;; render it back to plain text.
+                     (save-window-excursion
+                       (with-temp-buffer
+                         (insert (cdr (assoc 'return (cdr elem))))
+                         (shr-render-buffer (current-buffer))
+                         (buffer-string)))))
+          (puthash (symbol-name (car elem)) (cons `(documentation . ,doc) (cdr elem)) function-arguments-temp)))
       ;; PHP control structures are not present in JSON list. We add
       ;; them here (hard coded - there are not so many of them).
       (let ((php-control-structures '("if" "else" "elseif" "while" "do.while" "for" "foreach" "break" "continue" "switch" "declare" "return" "require" "include" "require_once" "include_once" "goto")))
