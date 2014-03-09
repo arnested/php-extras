@@ -5,7 +5,7 @@
 ;; Author: Arne Jørgensen <arne@arnested.dk>
 ;; URL: https://github.com/arnested/php-extras
 ;; Created: June 28, 2012
-;; Version: 2.0.0
+;; Version: 2.1.0
 ;; Package-Requires: ((php-mode "1.5.0"))
 ;; Keywords: programming, php
 
@@ -138,11 +138,17 @@ documentation for the inserted selection."
                (fboundp 'eldoc-message))
       (eldoc-message (funcall eldoc-documentation-function)))))
 
+(defun php-extras-function-documentation (symbol)
+  "Documentation for PHP function."
+  (php-extras-get-function-property symbol 'documentation))
+
 (defvar ac-source-php-extras
   '((candidates . php-extras-autocomplete-candidates)
     (candidate-face . php-extras-autocomplete-candidate-face)
     (selection-face . php-extras-autocomplete-selection-face)
+    (document . php-extras-function-documentation)
     (action . php-extras-ac-insert-action)
+    (symbol . "f")
     (cache))
   "Auto complete source for PHP functions.")
 
