@@ -148,6 +148,7 @@ documentation for the inserted selection."
     (selection-face . php-extras-autocomplete-selection-face)
     (document . php-extras-function-documentation)
     (action . php-extras-ac-insert-action)
+    (symbol . "f")
     (cache))
   "Auto complete source for PHP functions.")
 
