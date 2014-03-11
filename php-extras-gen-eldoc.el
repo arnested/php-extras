@@ -80,7 +80,10 @@
                        (with-temp-buffer
                          (insert (cdr (assoc 'return (cdr elem))))
                          (shr-render-buffer (current-buffer))
-                         (buffer-string)))))
+                         (delete-trailing-whitespace)
+                         (buffer-string)))
+                     "\n\n"
+                     "(" (cdr (assoc 'versions (cdr elem))) ")"))
           (puthash (symbol-name (car elem)) (cons `(documentation . ,doc) (cdr elem)) function-arguments-temp)))
       ;; PHP control structures are not present in JSON list. We add
       ;; them here (hard coded - there are not so many of them).
