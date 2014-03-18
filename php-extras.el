@@ -36,6 +36,13 @@
 
 (require 'eldoc)
 (require 'thingatpt)
+(eval-when-compile (require 'cl-lib))
+
+;; Silence byte-compiler warnings
+(declare-function php-get-pattern "php-mode" ())
+(declare-function company-doc-buffer "company" (&optional string))
+(declare-function company-grab-symbol "company" ())
+(defvar company-backends)
 
 (defvar php-extras-php-variable-regexp
   (format "\\(\\$[a-zA-Z_%s-%s][a-zA-Z0-9_%s-%s]*\\(\\[.*\\]\\)*\\)"
@@ -203,6 +210,69 @@ The candidates are generated from the
 
 ;;;###autoload
 (add-hook 'php-mode-hook #'php-extras-completion-setup)
+
+
+;;; Backend for `company-mode'
+
+;;;###autoload
+(defun php-extras-company (command &optional candidate &rest ignore)
+  "`company-mode' back-end using `php-extras-function-arguments'."
+  (interactive (list 'interactive))
+  (when (derived-mode-p 'php-mode)
+    (cl-case command
+      (interactive
+       (company-begin-backend 'php-extras-company))
+
+      (init
+       (php-extras-load-eldoc)
+       (unless (hash-table-p php-extras-function-arguments)
+         ;; Signaling an error here will cause company-mode to remove
+         ;; this backend from the list, so we need not check that the
+         ;; hash table exists later
+         (error "No PHP function information loaded")))
+
+      (prefix
+       (company-grab-symbol))
+
+      (candidates
+       (all-completions candidate php-extras-function-arguments))
+
+      (annotation
+       (let ((arguments (php-extras-get-function-property candidate 'prototype)))
+         (and arguments
+              (concat "(" arguments ")"))))
+
+      (meta
+       (php-extras-get-function-property candidate 'purpose))
+
+      (doc-buffer
+       (let ((docs (php-extras-get-function-property candidate 'documentation)))
+         (when docs
+           (company-doc-buffer docs))))
+
+      (post-completion
+       (php-extras-ac-insert-action)))))
+
+;;;###autoload
+(defun php-extras-company-setup ()
+  ;; Add `php-extras-company' to `company-backends' only if it's not
+  ;; already present in the list, to avoid overwriting any user
+  ;; preference for the order and merging of backends (as configured
+  ;; via customize, e.g.).  Elements of `company-backends' may be
+  ;; lists of backends to merge together, so this is more complicated
+  ;; than just (memq ..)
+  (when (boundp 'company-backends)
+    (unless
+        (cl-loop
+         for backend in company-backends
+         thereis (or (eq backend 'php-extras-company)
+                     (and (listp backend)
+                          (memq 'php-extras-company backend))))
+      (add-to-list 'company-backends 'php-extras-company))))
+
+;;;###autoload
+(eval-after-load 'company
+  '(php-extras-company-setup))
 
 
 
