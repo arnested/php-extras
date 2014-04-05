@@ -241,7 +241,7 @@ The candidates are generated from the
       (annotation
        (let ((arguments (php-extras-get-function-property candidate 'prototype)))
          (and arguments
-              (concat "(" arguments ")"))))
+              (replace-regexp-in-string "\\`[^(]*" "" arguments))))
 
       (meta
        (php-extras-get-function-property candidate 'purpose))
