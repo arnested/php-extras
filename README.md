@@ -8,6 +8,8 @@ Currently includes:
   * `php-extras-eldoc-documentation-function`
   * Auto complete source for PHP functions based on
     `php-extras-eldoc-documentation-function`
+  * Company completion back-end for PHP functions based on
+    `php-extras-eldoc-documentation-function`
 
 
 ## `php-extras-insert-previous-variable`
@@ -67,6 +69,12 @@ The source we provide with `php-extras` will hopefully be more up to
 date.
 
 
+## Company completion back-end for PHP functions based
+
+Users of [company-mode](http://company-mode.github.io/) will also get
+in-buffer  completion based on the extracted PHP functions.
+
+
 ## Installation
 
 The easiest way to install `php-extras` is probably to install it via
@@ -93,7 +101,7 @@ If you insist on installing it manually try to follow this recipe:
 * Add this to your `.emacs` / `.emacs.d/init.el`:
 
 ```lisp
-(add-to-list 'load-path "/somewhere/on/your/disk/php-xtras")
+(add-to-list 'load-path "/somewhere/on/your/disk/php-extras")
 (eval-after-load 'php-mode
   (require 'php-extras))
 ```
