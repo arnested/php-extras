@@ -93,7 +93,7 @@ If you insist on installing it manually try to follow this recipe:
 * Add this to your `.emacs` / `.emacs.d/init.el`:
 
 ```lisp
-(add-to-list 'load-path "/somewhere/on/your/disk/php-xtras")
+(add-to-list 'load-path "/somewhere/on/your/disk/php-extras")
 (eval-after-load 'php-mode
   (require 'php-extras))
 ```
