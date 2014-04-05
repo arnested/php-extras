@@ -239,9 +239,9 @@ The candidates are generated from the
        (all-completions candidate php-extras-function-arguments))
 
       (annotation
-       (let ((arguments (php-extras-get-function-property candidate 'prototype)))
-         (and arguments
-              (concat "(" arguments ")"))))
+       (let ((prototype (php-extras-get-function-property candidate 'prototype)))
+         (and prototype
+              (replace-regexp-in-string "\\`[^(]*" "" prototype))))
 
       (meta
        (php-extras-get-function-property candidate 'purpose))
