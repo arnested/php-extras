@@ -8,6 +8,8 @@ Currently includes:
   * `php-extras-eldoc-documentation-function`
   * Auto complete source for PHP functions based on
     `php-extras-eldoc-documentation-function`
+  * Company completion back-end for PHP functions based on
+    `php-extras-eldoc-documentation-function`
 
 
 ## `php-extras-insert-previous-variable`
@@ -65,6 +67,12 @@ using the `ac-source-dictionary`.
 
 The source we provide with `php-extras` will hopefully be more up to
 date.
+
+
+## Company completion back-end for PHP functions based
+
+Users of [company-mode](http://company-mode.github.io/) will also get
+in-buffer  completion based on the extracted PHP functions.
 
 
 ## Installation
