@@ -1,4 +1,5 @@
 # PHP Extras
+[![Gitter](https://badges.gitter.im/Join Chat.svg)](https://gitter.im/arnested/php-extras?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
 
 A small collection of extra features for Emacs `php-mode`.
 
