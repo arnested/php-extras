@@ -1,6 +1,6 @@
 ;;; php-extras.el --- Extra features for `php-mode'
 
-;; Copyright (C) 2012, 2013, 2014 Arne Jørgensen
+;; Copyright (C) 2012, 2013, 2014, 2015 Arne Jørgensen
 
 ;; Author: Arne Jørgensen <arne@arnested.dk>
 ;; URL: https://github.com/arnested/php-extras
@@ -44,6 +44,7 @@
 (declare-function company-grab-symbol "company" ())
 (declare-function company-begin-backend "company" (backend &optional callback))
 (defvar company-backends)
+(defvar ac-sources)
 
 (defvar php-extras-php-variable-regexp
   (format "\\(\\$[a-zA-Z_%s-%s][a-zA-Z0-9_%s-%s]*\\(\\[.*\\]\\)*\\)"
