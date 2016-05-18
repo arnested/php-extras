@@ -122,7 +122,7 @@ Property can be: 'versions, 'return, 'prototype, 'purpose, or 'id."
 (add-hook 'php-mode-hook 'php-extras-eldoc-setup)
 
 (defun php-extras-eldoc-setup ()
-  (unless eldoc-documentation-function
+  (when (memq eldoc-documentation-function '(nil ignore))
       (set (make-local-variable 'eldoc-documentation-function)
            #'php-extras-eldoc-documentation-function))
   (eldoc-add-command 'completion-at-point))
@@ -144,6 +144,7 @@ documentation for the inserted selection."
     (insert "()")
     (backward-char)
     (when (and (boundp 'eldoc-documentation-function)
+               (not (memq eldoc-documentation-function '(nil ignore)))
                (fboundp 'eldoc-message))
       (eldoc-message (funcall eldoc-documentation-function)))))
 
